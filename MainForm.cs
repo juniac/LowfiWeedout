@@ -23,8 +23,8 @@ namespace LowfiWeedout {
     private int fileIndex = 0;
     String filenameFaceCascade = "haarcascade_frontalface_alt.xml";
     CascadeClassifier faceCascade = new CascadeClassifier();
-    Mat frame = new Mat();
-    Mat currentCVImage;
+    //Mat frame = new Mat();
+    //Mat currentCVImage;
     OpenCvSharp.Point currentCenter;
     int currentRadius;
     //PictureBox overlayPictureBox = new PictureBox();
@@ -67,6 +67,9 @@ namespace LowfiWeedout {
         this.readTargetFolder();
 
       }
+      
+      this.Activate();
+      this.Show();
     }
 
     private void MainForm_DragEnter(object sender, DragEventArgs e) {
@@ -107,7 +110,10 @@ namespace LowfiWeedout {
         index = Math.Min(index, files.Length - 1);
         index = Math.Max(index, 0);
         string filePath = files[index].FullName;
-
+        if (pictureBox.Image != null) {
+          pictureBox.Image.Dispose();
+        }
+        
         pictureBox.Image = Image.FromFile(filePath);
         imageSizeLabel.Text = $"이미지크기 : {pictureBox.Image.Width} x {pictureBox.Image.Height}";
         fileIndex = index;
@@ -124,49 +130,56 @@ namespace LowfiWeedout {
     private void faceDetect(string filePath) {
       
       faceTextBox.Text = "얼굴인식 : 없음";
-      Mat image = Cv2.ImRead(filePath, ImreadModes.Grayscale);
-      
+      using(Mat image = Cv2.ImRead(filePath, ImreadModes.Grayscale)) {
+        Rect[] faces = faceCascade.DetectMultiScale(image, 1.1, 10, HaarDetectionType.FindBiggestObject, new OpenCvSharp.Size(20, 20));
 
-      Rect[] faces = faceCascade.DetectMultiScale(image);
-      Console.WriteLine(faces.Length);
-      string faceItemResult = "얼굴인식 : ";
-      bool faceExists = false;
-      if (autoFaceCheckBox.Checked == true) {
-        foreach (var item in faces) {
-          // Cv2.Rectangle(colorImage, item, Scalar.Red); // add rectangle to the image
-          Console.WriteLine("faces : " + item);
+        Console.WriteLine(faces.Length);
+        string faceItemResult = "얼굴인식 : ";
+        bool faceExists = false;
+        if (autoFaceCheckBox.Checked == true) {
+          foreach (var item in faces) {
+            // Cv2.Rectangle(colorImage, item, Scalar.Red); // add rectangle to the image
+            Console.WriteLine("faces : " + item);
 
-          int centerX = item.X + (item.Width / 2);
-          int centerY = item.Y + (item.Height / 2);
-          int radius = Math.Max(item.Width, item.Height) / 2;
-          //Cv2.Circle(currentCVImage, new OpenCvSharp.Point(centerX, centerY), radius, Scalar.White, -1, LineTypes.AntiAlias);
-          currentCenter = new OpenCvSharp.Point(centerX, centerY);
-          currentRadius = radius;
-          drawCircle();
-          faceItemResult += item;
-          faceExists = true;
-          
+            int centerX = item.X + (item.Width / 2);
+            int centerY = item.Y + (item.Height / 2);
+            int radius = Math.Max(item.Width, item.Height) / 2;
+            
+            currentCenter = new OpenCvSharp.Point(centerX, centerY);
+            currentRadius = radius;
+            faceItemResult += item;
+            faceExists = true;
+
+          }
+          if (faceExists) {
+            faceItemResult += "==> 찾음";
+            drawCircle();
+          }
+          //pictureBox.Image = BitmapConverter.ToBitmap(currentCVImage);
+          faceTextBox.Text = faceItemResult;
+        } else {
+          currentCenter = new OpenCvSharp.Point();
+          currentRadius = 0;
+          circleSizeVelocity = 0;
+          // pictureBox.Image = Image.FromFile(filePath);
         }
-        if (faceExists) {
-          faceItemResult += "==> 찾음";
-          drawCircle();
-        }
-        //pictureBox.Image = BitmapConverter.ToBitmap(currentCVImage);
-        faceTextBox.Text = faceItemResult;
-      } else {
-        currentCenter = new OpenCvSharp.Point();
-        currentRadius = 0;
-        circleSizeVelocity = 0;
-        // pictureBox.Image = Image.FromFile(filePath);
-      }
-      
+      } 
     }
 
     private void drawCircle() {
-      string filePath = fileTextBox.Text;
-      currentCVImage = Cv2.ImRead(filePath, ImreadModes.AnyColor);
-      Cv2.Circle(currentCVImage, currentCenter, currentRadius + circleSizeVelocity, Scalar.White, -1, LineTypes.AntiAlias);
-      pictureBox.Image = BitmapConverter.ToBitmap(currentCVImage);
+      if (currentRadius > 0) {
+        string filePath = fileTextBox.Text;
+
+        using (Mat currentCVImage = Cv2.ImRead(filePath, ImreadModes.AnyColor)) {
+          Cv2.Circle(currentCVImage, currentCenter, currentRadius + circleSizeVelocity, Scalar.White, -1, LineTypes.AntiAlias);
+          pictureBox.Image.Dispose();
+          pictureBox.Image = BitmapConverter.ToBitmap(currentCVImage);
+
+        }
+      }
+      
+        //currentCVImage = Cv2.ImRead(filePath, ImreadModes.AnyColor);
+      
 
     }
 
@@ -187,16 +200,42 @@ namespace LowfiWeedout {
     }
     private void delete() {
       Debug.WriteLine("==>delete");
-      //File.Delete(fileTextBox.Text);
+      statusLabel.Text = "삭제중";
+      pictureBox.Image.Dispose();
+      //currentCVImage.Dispose();
       files = files.Where((val, idx) => idx != fileIndex).ToArray();
       fileCountLabel.Text = files.Length.ToString();
+      if (File.Exists(fileTextBox.Text)) {
+        File.Delete(fileTextBox.Text);
+      }
       readFile(fileIndex);
+      statusLabel.Text = "삭제완료";
+      statusLabel.Text = "대기중";
+    }
 
+    private void save() {
+      statusLabel.Text = "저장중";
+      Debug.WriteLine("==> save");
+      //Image saveImage = (Image)pictureBox.Image.Clone();
+      Bitmap bImage = (Bitmap)pictureBox.Image;
+      Bitmap saveImage = new Bitmap(bImage);
+      bImage.Dispose();
+      bImage = null;
+
+      //pictureBox.Image.Dispose();
+      saveImage.Save(fileTextBox.Text, System.Drawing.Imaging.ImageFormat.Jpeg);
+      saveImage.Dispose();
+      pictureBox.Image.Dispose();
+      pictureBox.Image = Image.FromFile(fileTextBox.Text);
+      //pictureBox.Image = saveImage;
+      statusLabel.Text = "저장완료";
+      statusLabel.Text = "대기중";
     }
 
     private void deleteButton_Click(object sender, EventArgs e) {
       
       this.delete();
+     
     }
 
     private void nextButton_Click(object sender, EventArgs e) {
@@ -226,7 +265,7 @@ namespace LowfiWeedout {
           this.next();
           return true;
         case Keys.Left:
-        case Keys.Back:
+        
           this.previous();
           return true;
         case Keys.Up:
@@ -235,9 +274,13 @@ namespace LowfiWeedout {
         case Keys.Down:
           sizeDown();
           return true;
+        case Keys.S:
+          
+          save();
+          return true;
         case Keys.Escape:
-          string filePath = fileTextBox.Text;
-          pictureBox.Image = Image.FromFile(filePath);
+        case Keys.Back:
+          reset();
           return true;
       }
       return false;
@@ -273,11 +316,15 @@ namespace LowfiWeedout {
     }
 
     private void saveButton_Click(object sender, EventArgs e) {
-
+      save();
     }
 
     private void resetButton_Click(object sender, EventArgs e) {
+      reset();
+    }
+    private void reset() {
       string filePath = fileTextBox.Text;
+      pictureBox.Image.Dispose();
       pictureBox.Image = Image.FromFile(filePath);
       currentCenter = new OpenCvSharp.Point();
       currentRadius = 0;
@@ -300,10 +347,15 @@ namespace LowfiWeedout {
       Int32 realY = (Int32)((coordinates.Y - padY) / zoomActual);
       int newX = realX < 0 || realX > realW ? 0 : realX;
       int newY = realY < 0 || realY > realH ? 0 : realY;
+      
       return new System.Drawing.Point((int)newX, (int)newY);
     }
 
     private void pictureBox_MouseClick(object sender, MouseEventArgs e) {
+      if (e.Button == MouseButtons.Right) {
+        reset();
+        return;
+      }
       int x = e.X;
       int y = e.Y;
       if (currentRadius == 0) {

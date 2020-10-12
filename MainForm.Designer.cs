@@ -24,6 +24,7 @@
     /// </summary>
     private void InitializeComponent() {
       this.components = new System.ComponentModel.Container();
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
       this.groupBox1 = new System.Windows.Forms.GroupBox();
       this.targetFolderTextBox = new System.Windows.Forms.TextBox();
       this.targetFolderButton = new System.Windows.Forms.Button();
@@ -51,6 +52,7 @@
       this.faceTextBox = new System.Windows.Forms.TextBox();
       this.saveButton = new System.Windows.Forms.Button();
       this.imageSizeLabel = new System.Windows.Forms.Label();
+      this.statusLabel = new System.Windows.Forms.Label();
       this.groupBox1.SuspendLayout();
       this.groupBox2.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
@@ -194,7 +196,7 @@
       this.deleteButton.ForeColor = System.Drawing.Color.White;
       this.deleteButton.Location = new System.Drawing.Point(1399, 745);
       this.deleteButton.Name = "deleteButton";
-      this.deleteButton.Size = new System.Drawing.Size(114, 59);
+      this.deleteButton.Size = new System.Drawing.Size(114, 47);
       this.deleteButton.TabIndex = 2;
       this.deleteButton.Text = "삭제하기\r\n(Del)\r\n";
       this.deleteButton.UseVisualStyleBackColor = false;
@@ -345,7 +347,7 @@
       this.saveButton.ForeColor = System.Drawing.Color.White;
       this.saveButton.Location = new System.Drawing.Point(1278, 745);
       this.saveButton.Name = "saveButton";
-      this.saveButton.Size = new System.Drawing.Size(114, 59);
+      this.saveButton.Size = new System.Drawing.Size(114, 47);
       this.saveButton.TabIndex = 9;
       this.saveButton.Text = "저장하기\r\n(S)\r\n";
       this.saveButton.UseVisualStyleBackColor = false;
@@ -361,12 +363,24 @@
       this.imageSizeLabel.TabIndex = 10;
       this.imageSizeLabel.Text = "이미지크기";
       // 
+      // statusLabel
+      // 
+      this.statusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+      this.statusLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+      this.statusLabel.Location = new System.Drawing.Point(1412, 795);
+      this.statusLabel.Name = "statusLabel";
+      this.statusLabel.Size = new System.Drawing.Size(100, 23);
+      this.statusLabel.TabIndex = 11;
+      this.statusLabel.Text = "대기";
+      this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+      // 
       // MainForm
       // 
       this.AllowDrop = true;
       this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(1525, 816);
+      this.Controls.Add(this.statusLabel);
       this.Controls.Add(this.imageSizeLabel);
       this.Controls.Add(this.saveButton);
       this.Controls.Add(this.groupBox4);
@@ -377,6 +391,7 @@
       this.Controls.Add(this.deleteButton);
       this.Controls.Add(this.groupBox2);
       this.Controls.Add(this.groupBox1);
+      this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
       this.Name = "MainForm";
       this.Text = "LowfiWeedout";
       this.DragDrop += new System.Windows.Forms.DragEventHandler(this.MainForm_DragDrop);
@@ -426,6 +441,7 @@
     private System.Windows.Forms.Button saveButton;
     private System.Windows.Forms.Button resetButton;
     private System.Windows.Forms.Label imageSizeLabel;
+    private System.Windows.Forms.Label statusLabel;
   }
 }
 
