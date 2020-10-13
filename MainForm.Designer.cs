@@ -43,7 +43,6 @@
       this.fileTextBox = new System.Windows.Forms.TextBox();
       this.pictureBox = new System.Windows.Forms.PictureBox();
       this.imageGroupBox = new System.Windows.Forms.GroupBox();
-      this.timer = new System.Windows.Forms.Timer(this.components);
       this.groupBox4 = new System.Windows.Forms.GroupBox();
       this.resetButton = new System.Windows.Forms.Button();
       this.sizeDownButton = new System.Windows.Forms.Button();
@@ -53,6 +52,7 @@
       this.saveButton = new System.Windows.Forms.Button();
       this.imageSizeLabel = new System.Windows.Forms.Label();
       this.statusLabel = new System.Windows.Forms.Label();
+      this.openFolderButton = new System.Windows.Forms.Button();
       this.groupBox1.SuspendLayout();
       this.groupBox2.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
@@ -76,6 +76,7 @@
       // 
       this.targetFolderTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+      this.targetFolderTextBox.BackColor = System.Drawing.Color.WhiteSmoke;
       this.targetFolderTextBox.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
       this.targetFolderTextBox.Location = new System.Drawing.Point(149, 21);
       this.targetFolderTextBox.Name = "targetFolderTextBox";
@@ -87,6 +88,7 @@
       // targetFolderButton
       // 
       this.targetFolderButton.BackColor = System.Drawing.Color.Salmon;
+      this.targetFolderButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
       this.targetFolderButton.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
       this.targetFolderButton.Location = new System.Drawing.Point(6, 20);
       this.targetFolderButton.Name = "targetFolderButton";
@@ -123,6 +125,7 @@
       // selectButton
       // 
       this.selectButton.BackColor = System.Drawing.SystemColors.ActiveCaption;
+      this.selectButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
       this.selectButton.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
       this.selectButton.Location = new System.Drawing.Point(95, 91);
       this.selectButton.Name = "selectButton";
@@ -192,13 +195,14 @@
       // 
       this.deleteButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
       this.deleteButton.BackColor = System.Drawing.Color.Red;
+      this.deleteButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
       this.deleteButton.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
       this.deleteButton.ForeColor = System.Drawing.Color.White;
-      this.deleteButton.Location = new System.Drawing.Point(1399, 745);
+      this.deleteButton.Location = new System.Drawing.Point(1399, 735);
       this.deleteButton.Name = "deleteButton";
-      this.deleteButton.Size = new System.Drawing.Size(114, 47);
+      this.deleteButton.Size = new System.Drawing.Size(114, 77);
       this.deleteButton.TabIndex = 2;
-      this.deleteButton.Text = "삭제하기\r\n(Del)\r\n";
+      this.deleteButton.Text = "삭제하기\r\n(Del, CTRL+D)\r\n";
       this.deleteButton.UseVisualStyleBackColor = false;
       this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
       // 
@@ -206,12 +210,13 @@
       // 
       this.nextButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.nextButton.BackColor = System.Drawing.Color.LightCyan;
+      this.nextButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
       this.nextButton.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-      this.nextButton.Location = new System.Drawing.Point(139, 745);
+      this.nextButton.Location = new System.Drawing.Point(222, 745);
       this.nextButton.Name = "nextButton";
-      this.nextButton.Size = new System.Drawing.Size(114, 59);
+      this.nextButton.Size = new System.Drawing.Size(198, 59);
       this.nextButton.TabIndex = 3;
-      this.nextButton.Text = "다음사진\r\n( → )\r\n";
+      this.nextButton.Text = "다음사진\r\n( →, 스페이스바 )\r\n";
       this.nextButton.UseVisualStyleBackColor = false;
       this.nextButton.Click += new System.EventHandler(this.nextButton_Click);
       // 
@@ -219,10 +224,11 @@
       // 
       this.prevButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.prevButton.BackColor = System.Drawing.Color.LightBlue;
+      this.prevButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
       this.prevButton.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
       this.prevButton.Location = new System.Drawing.Point(19, 745);
       this.prevButton.Name = "prevButton";
-      this.prevButton.Size = new System.Drawing.Size(114, 59);
+      this.prevButton.Size = new System.Drawing.Size(188, 59);
       this.prevButton.TabIndex = 4;
       this.prevButton.Text = "이전사진\r\n( ← )\r\n";
       this.prevButton.UseVisualStyleBackColor = false;
@@ -231,11 +237,12 @@
       // fileTextBox
       // 
       this.fileTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+      this.fileTextBox.BackColor = System.Drawing.SystemColors.ButtonHighlight;
       this.fileTextBox.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-      this.fileTextBox.Location = new System.Drawing.Point(989, 709);
+      this.fileTextBox.Location = new System.Drawing.Point(556, 704);
       this.fileTextBox.Name = "fileTextBox";
       this.fileTextBox.ReadOnly = true;
-      this.fileTextBox.Size = new System.Drawing.Size(524, 25);
+      this.fileTextBox.Size = new System.Drawing.Size(761, 25);
       this.fileTextBox.TabIndex = 5;
       // 
       // pictureBox
@@ -265,10 +272,6 @@
       this.imageGroupBox.TabStop = false;
       this.imageGroupBox.Text = "이미지";
       // 
-      // timer
-      // 
-      this.timer.Interval = 33;
-      // 
       // groupBox4
       // 
       this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -287,32 +290,41 @@
       // 
       // resetButton
       // 
+      this.resetButton.BackColor = System.Drawing.Color.DarkSlateGray;
+      this.resetButton.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+      this.resetButton.ForeColor = System.Drawing.Color.White;
       this.resetButton.Location = new System.Drawing.Point(7, 168);
       this.resetButton.Name = "resetButton";
-      this.resetButton.Size = new System.Drawing.Size(176, 23);
+      this.resetButton.Size = new System.Drawing.Size(176, 54);
       this.resetButton.TabIndex = 4;
-      this.resetButton.Text = "원본으로(ESC)";
-      this.resetButton.UseVisualStyleBackColor = true;
+      this.resetButton.Text = "원본으로\r\n(ESC, A)";
+      this.resetButton.UseVisualStyleBackColor = false;
       this.resetButton.Click += new System.EventHandler(this.resetButton_Click);
       // 
       // sizeDownButton
       // 
-      this.sizeDownButton.Location = new System.Drawing.Point(98, 213);
+      this.sizeDownButton.BackColor = System.Drawing.Color.Khaki;
+      this.sizeDownButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+      this.sizeDownButton.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+      this.sizeDownButton.Location = new System.Drawing.Point(97, 228);
       this.sizeDownButton.Name = "sizeDownButton";
-      this.sizeDownButton.Size = new System.Drawing.Size(75, 23);
+      this.sizeDownButton.Size = new System.Drawing.Size(86, 54);
       this.sizeDownButton.TabIndex = 3;
-      this.sizeDownButton.Text = "작게(↓)";
-      this.sizeDownButton.UseVisualStyleBackColor = true;
+      this.sizeDownButton.Text = "작게\r\n(↓,휠아래)\r\n";
+      this.sizeDownButton.UseVisualStyleBackColor = false;
       this.sizeDownButton.Click += new System.EventHandler(this.sizeDownButton_Click);
       // 
       // sizeUpButton
       // 
-      this.sizeUpButton.Location = new System.Drawing.Point(16, 213);
+      this.sizeUpButton.BackColor = System.Drawing.Color.Khaki;
+      this.sizeUpButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+      this.sizeUpButton.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+      this.sizeUpButton.Location = new System.Drawing.Point(7, 228);
       this.sizeUpButton.Name = "sizeUpButton";
-      this.sizeUpButton.Size = new System.Drawing.Size(75, 23);
+      this.sizeUpButton.Size = new System.Drawing.Size(84, 54);
       this.sizeUpButton.TabIndex = 2;
-      this.sizeUpButton.Text = "크게(↑)";
-      this.sizeUpButton.UseVisualStyleBackColor = true;
+      this.sizeUpButton.Text = "크게\r\n(↑, 휠위로)";
+      this.sizeUpButton.UseVisualStyleBackColor = false;
       this.sizeUpButton.Click += new System.EventHandler(this.sizeUpButton_Click);
       // 
       // autoFaceCheckBox
@@ -320,9 +332,10 @@
       this.autoFaceCheckBox.AutoSize = true;
       this.autoFaceCheckBox.Checked = true;
       this.autoFaceCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+      this.autoFaceCheckBox.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
       this.autoFaceCheckBox.Location = new System.Drawing.Point(7, 145);
       this.autoFaceCheckBox.Name = "autoFaceCheckBox";
-      this.autoFaceCheckBox.Size = new System.Drawing.Size(104, 16);
+      this.autoFaceCheckBox.Size = new System.Drawing.Size(115, 21);
       this.autoFaceCheckBox.TabIndex = 1;
       this.autoFaceCheckBox.Text = "자동 얼굴 찾기";
       this.autoFaceCheckBox.UseVisualStyleBackColor = true;
@@ -343,11 +356,14 @@
       // 
       this.saveButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
       this.saveButton.BackColor = System.Drawing.Color.DarkCyan;
+      this.saveButton.FlatAppearance.BorderColor = System.Drawing.Color.Teal;
+      this.saveButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
       this.saveButton.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
       this.saveButton.ForeColor = System.Drawing.Color.White;
-      this.saveButton.Location = new System.Drawing.Point(1278, 745);
+      this.saveButton.Location = new System.Drawing.Point(1279, 735);
+      this.saveButton.Margin = new System.Windows.Forms.Padding(0);
       this.saveButton.Name = "saveButton";
-      this.saveButton.Size = new System.Drawing.Size(114, 47);
+      this.saveButton.Size = new System.Drawing.Size(114, 77);
       this.saveButton.TabIndex = 9;
       this.saveButton.Text = "저장하기\r\n(S)\r\n";
       this.saveButton.UseVisualStyleBackColor = false;
@@ -357,9 +373,10 @@
       // 
       this.imageSizeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
       this.imageSizeLabel.AutoSize = true;
-      this.imageSizeLabel.Location = new System.Drawing.Point(16, 710);
+      this.imageSizeLabel.Font = new System.Drawing.Font("맑은 고딕", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+      this.imageSizeLabel.Location = new System.Drawing.Point(15, 706);
       this.imageSizeLabel.Name = "imageSizeLabel";
-      this.imageSizeLabel.Size = new System.Drawing.Size(65, 12);
+      this.imageSizeLabel.Size = new System.Drawing.Size(84, 20);
       this.imageSizeLabel.TabIndex = 10;
       this.imageSizeLabel.Text = "이미지크기";
       // 
@@ -367,12 +384,28 @@
       // 
       this.statusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
       this.statusLabel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-      this.statusLabel.Location = new System.Drawing.Point(1412, 795);
+      this.statusLabel.Location = new System.Drawing.Point(1407, 705);
       this.statusLabel.Name = "statusLabel";
       this.statusLabel.Size = new System.Drawing.Size(100, 23);
       this.statusLabel.TabIndex = 11;
       this.statusLabel.Text = "대기";
       this.statusLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+      // 
+      // openFolderButton
+      // 
+      this.openFolderButton.BackColor = System.Drawing.SystemColors.Info;
+      this.openFolderButton.FlatAppearance.BorderColor = System.Drawing.Color.Olive;
+      this.openFolderButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Red;
+      this.openFolderButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+      this.openFolderButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+      this.openFolderButton.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+      this.openFolderButton.Location = new System.Drawing.Point(1323, 705);
+      this.openFolderButton.Name = "openFolderButton";
+      this.openFolderButton.Size = new System.Drawing.Size(75, 23);
+      this.openFolderButton.TabIndex = 13;
+      this.openFolderButton.Text = "폴더열기";
+      this.openFolderButton.UseVisualStyleBackColor = false;
+      this.openFolderButton.Click += new System.EventHandler(this.openFolderButton_Click);
       // 
       // MainForm
       // 
@@ -380,6 +413,7 @@
       this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(1525, 816);
+      this.Controls.Add(this.openFolderButton);
       this.Controls.Add(this.statusLabel);
       this.Controls.Add(this.imageSizeLabel);
       this.Controls.Add(this.saveButton);
@@ -432,7 +466,6 @@
     private System.Windows.Forms.TextBox fileNumberTextBox;
     private System.Windows.Forms.Label label5;
     private System.Windows.Forms.GroupBox imageGroupBox;
-    private System.Windows.Forms.Timer timer;
     private System.Windows.Forms.GroupBox groupBox4;
     private System.Windows.Forms.TextBox faceTextBox;
     private System.Windows.Forms.CheckBox autoFaceCheckBox;
@@ -442,6 +475,7 @@
     private System.Windows.Forms.Button resetButton;
     private System.Windows.Forms.Label imageSizeLabel;
     private System.Windows.Forms.Label statusLabel;
+    private System.Windows.Forms.Button openFolderButton;
   }
 }
 

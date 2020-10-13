@@ -117,7 +117,7 @@ namespace LowfiWeedout {
         pictureBox.Image = Image.FromFile(filePath);
         imageSizeLabel.Text = $"이미지크기 : {pictureBox.Image.Width} x {pictureBox.Image.Height}";
         fileIndex = index;
-        fileNumberTextBox.Text = fileIndex.ToString();
+        fileNumberTextBox.Text = (fileIndex + 1).ToString();
         fileTextBox.Text = filePath;
 
         faceDetect(filePath);
@@ -185,7 +185,7 @@ namespace LowfiWeedout {
 
     private void next() {
       fileIndex++;
-      fileIndex = Math.Min(fileIndex, files.Length - 1);
+      fileIndex = Math.Min(fileIndex, files.Length);
       readFile(fileIndex);
 
       Debug.WriteLine("==>next");
@@ -257,7 +257,9 @@ namespace LowfiWeedout {
 
       switch (keyData) {
         case Keys.Delete:
+        case (Keys.D | Keys.Control):
           this.delete();
+          
           return true;
         //case Keys.Enter:
         case Keys.Right:
@@ -275,11 +277,13 @@ namespace LowfiWeedout {
           sizeDown();
           return true;
         case Keys.S:
-          
+        case (Keys.S | Keys.Control):
+
           save();
           return true;
         case Keys.Escape:
         case Keys.Back:
+        case Keys.A:
           reset();
           return true;
       }
@@ -297,7 +301,7 @@ namespace LowfiWeedout {
     }
 
     private void selectButton_Click(object sender, EventArgs e) {
-      int index = Convert.ToInt32(fileNumberTextBox.Text);
+      int index = Convert.ToInt32(fileNumberTextBox.Text) - 1;
       readFile(index);
     }
 
@@ -376,6 +380,18 @@ namespace LowfiWeedout {
       circleSizeVelocity += (int)Math.Round(e.Delta / 30.0f);
       drawCircle();
 
+    }
+
+    private void openFolderButton_Click(object sender, EventArgs e) {
+      
+      string filePath = fileTextBox.Text;
+      if (String.IsNullOrEmpty(filePath)) {
+        return;
+      }
+      string path = Path.GetDirectoryName(filePath);
+      if (Directory.Exists(path)) {
+        Process.Start(path);
+      }
     }
   }
 
