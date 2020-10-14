@@ -53,6 +53,7 @@
       this.imageSizeLabel = new System.Windows.Forms.Label();
       this.statusLabel = new System.Windows.Forms.Label();
       this.openFolderButton = new System.Windows.Forms.Button();
+      this.saveNextButton = new System.Windows.Forms.Button();
       this.groupBox1.SuspendLayout();
       this.groupBox2.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
@@ -202,7 +203,7 @@
       this.deleteButton.Name = "deleteButton";
       this.deleteButton.Size = new System.Drawing.Size(114, 77);
       this.deleteButton.TabIndex = 2;
-      this.deleteButton.Text = "삭제하기\r\n(Del, CTRL+D)\r\n";
+      this.deleteButton.Text = "삭제하기\r\n(Del, D)\r\n";
       this.deleteButton.UseVisualStyleBackColor = false;
       this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
       // 
@@ -212,11 +213,11 @@
       this.nextButton.BackColor = System.Drawing.Color.LightCyan;
       this.nextButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
       this.nextButton.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-      this.nextButton.Location = new System.Drawing.Point(222, 745);
+      this.nextButton.Location = new System.Drawing.Point(213, 745);
       this.nextButton.Name = "nextButton";
       this.nextButton.Size = new System.Drawing.Size(198, 59);
       this.nextButton.TabIndex = 3;
-      this.nextButton.Text = "다음사진\r\n( →, 스페이스바 )\r\n";
+      this.nextButton.Text = "다음사진\r\n( →, C )\r\n";
       this.nextButton.UseVisualStyleBackColor = false;
       this.nextButton.Click += new System.EventHandler(this.nextButton_Click);
       // 
@@ -230,7 +231,7 @@
       this.prevButton.Name = "prevButton";
       this.prevButton.Size = new System.Drawing.Size(188, 59);
       this.prevButton.TabIndex = 4;
-      this.prevButton.Text = "이전사진\r\n( ← )\r\n";
+      this.prevButton.Text = "이전사진\r\n( ←,X )\r\n";
       this.prevButton.UseVisualStyleBackColor = false;
       this.prevButton.Click += new System.EventHandler(this.prevButton_Click);
       // 
@@ -360,10 +361,10 @@
       this.saveButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
       this.saveButton.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
       this.saveButton.ForeColor = System.Drawing.Color.White;
-      this.saveButton.Location = new System.Drawing.Point(1279, 735);
+      this.saveButton.Location = new System.Drawing.Point(1281, 735);
       this.saveButton.Margin = new System.Windows.Forms.Padding(0);
       this.saveButton.Name = "saveButton";
-      this.saveButton.Size = new System.Drawing.Size(114, 77);
+      this.saveButton.Size = new System.Drawing.Size(112, 77);
       this.saveButton.TabIndex = 9;
       this.saveButton.Text = "저장하기\r\n(S)\r\n";
       this.saveButton.UseVisualStyleBackColor = false;
@@ -407,12 +408,30 @@
       this.openFolderButton.UseVisualStyleBackColor = false;
       this.openFolderButton.Click += new System.EventHandler(this.openFolderButton_Click);
       // 
+      // saveNextButton
+      // 
+      this.saveNextButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+      this.saveNextButton.BackColor = System.Drawing.Color.Navy;
+      this.saveNextButton.FlatAppearance.BorderColor = System.Drawing.Color.Teal;
+      this.saveNextButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+      this.saveNextButton.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+      this.saveNextButton.ForeColor = System.Drawing.Color.White;
+      this.saveNextButton.Location = new System.Drawing.Point(414, 745);
+      this.saveNextButton.Margin = new System.Windows.Forms.Padding(0);
+      this.saveNextButton.Name = "saveNextButton";
+      this.saveNextButton.Size = new System.Drawing.Size(196, 59);
+      this.saveNextButton.TabIndex = 14;
+      this.saveNextButton.Text = "저장하고 다음\r\n(Space)\r\n";
+      this.saveNextButton.UseVisualStyleBackColor = false;
+      this.saveNextButton.Click += new System.EventHandler(this.saveNextButton_Click);
+      // 
       // MainForm
       // 
       this.AllowDrop = true;
       this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(1525, 816);
+      this.Controls.Add(this.saveNextButton);
       this.Controls.Add(this.openFolderButton);
       this.Controls.Add(this.statusLabel);
       this.Controls.Add(this.imageSizeLabel);
@@ -476,6 +495,7 @@
     private System.Windows.Forms.Label imageSizeLabel;
     private System.Windows.Forms.Label statusLabel;
     private System.Windows.Forms.Button openFolderButton;
+    private System.Windows.Forms.Button saveNextButton;
   }
 }
 

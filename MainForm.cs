@@ -17,9 +17,9 @@ using OpenCvSharp.Extensions;
 namespace LowfiWeedout {
   public partial class MainForm : Form {
     private int totalFiles = 0;
-    private DirectoryInfo[] folders;
-    private FileInfo[] files = { };
-    private int folderIndex = 0;
+    //private DirectoryInfo[] folders;
+    private FileInfo[] files;
+    //private int folderIndex = 0;
     private int fileIndex = 0;
     String filenameFaceCascade = "haarcascade_frontalface_alt.xml";
     CascadeClassifier faceCascade = new CascadeClassifier();
@@ -50,6 +50,7 @@ namespace LowfiWeedout {
 
     private void targetFolderButton_Click(object sender, EventArgs e) {
       if (betterFolderBrowser.ShowDialog() == DialogResult.OK) {
+       
         string selectedFolder = betterFolderBrowser.SelectedFolder;
         targetFolderTextBox.Text = selectedFolder;
         this.readTargetFolder();
@@ -59,6 +60,7 @@ namespace LowfiWeedout {
     }
 
     private void MainForm_DragDrop(object sender, DragEventArgs e) {
+      
       string path = ((string[])e.Data.GetData(DataFormats.FileDrop))[0];
 
       if (Directory.Exists(path)) {
@@ -83,18 +85,25 @@ namespace LowfiWeedout {
     private void readTargetFolder() {
       try {
         
-        fileCountLabel.Text = totalFiles.ToString();
-        
+        fileCountLabel.Text = "0";
+        files = new FileInfo[] { };
         // 폴더를 추가한다.
         DirectoryInfo dir = new DirectoryInfo(targetFolderTextBox.Text);
         DirectoryInfo[] folders = dir.GetDirectories();
         totalFolderCountLabel.Text = $"{folders.Length.ToString()} 개";
-        foreach (DirectoryInfo folder in folders) {
-          FileInfo[] folderFiles = folder.GetFiles("*.jpg", SearchOption.AllDirectories);
-          
-          files = files.Concat(folderFiles).ToArray();
-          
-        }
+
+        files = dir.GetFiles("*.jpg", SearchOption.AllDirectories);
+        FileInfo[] jpegFiles = dir.GetFiles("*.jpeg", SearchOption.AllDirectories);
+        files = files.Concat(jpegFiles).ToArray();
+        //Array.Clear(files, 0, files.Length);
+        //Debug.WriteLine(files.Length);
+        //foreach (DirectoryInfo folder in folders) {
+        //  FileInfo[] folderFiles = folder.GetFiles("*.jpg", SearchOption.AllDirectories);
+
+        //  files = files.Concat(folderFiles).ToArray();
+
+        //}
+        Debug.WriteLine(files.Length);
         fileCountLabel.Text = files.Length.ToString();
         readFile();
 
@@ -131,7 +140,7 @@ namespace LowfiWeedout {
       
       faceTextBox.Text = "얼굴인식 : 없음";
       using(Mat image = Cv2.ImRead(filePath, ImreadModes.Grayscale)) {
-        Rect[] faces = faceCascade.DetectMultiScale(image, 1.1, 10, HaarDetectionType.FindBiggestObject, new OpenCvSharp.Size(20, 20));
+        Rect[] faces = faceCascade.DetectMultiScale(image, 1.1, 10, HaarDetectionType.FindBiggestObject, new OpenCvSharp.Size(30, 30));
 
         Console.WriteLine(faces.Length);
         string faceItemResult = "얼굴인식 : ";
@@ -213,7 +222,7 @@ namespace LowfiWeedout {
       statusLabel.Text = "대기중";
     }
 
-    private void save() {
+    private void save(bool nextImage = false) {
       statusLabel.Text = "저장중";
       Debug.WriteLine("==> save");
       //Image saveImage = (Image)pictureBox.Image.Clone();
@@ -230,6 +239,9 @@ namespace LowfiWeedout {
       //pictureBox.Image = saveImage;
       statusLabel.Text = "저장완료";
       statusLabel.Text = "대기중";
+      if (nextImage == true) {
+        next();
+      }
     }
 
     private void deleteButton_Click(object sender, EventArgs e) {
@@ -258,16 +270,20 @@ namespace LowfiWeedout {
       switch (keyData) {
         case Keys.Delete:
         case (Keys.D | Keys.Control):
+        case Keys.D:
           this.delete();
           
           return true;
         //case Keys.Enter:
         case Keys.Right:
+        case Keys.C:
+          next();
+          return true;
         case Keys.Space:
-          this.next();
+          save(true);
           return true;
         case Keys.Left:
-        
+        case Keys.X:
           this.previous();
           return true;
         case Keys.Up:
@@ -392,6 +408,10 @@ namespace LowfiWeedout {
       if (Directory.Exists(path)) {
         Process.Start(path);
       }
+    }
+
+    private void saveNextButton_Click(object sender, EventArgs e) {
+      this.save(true);
     }
   }
 
